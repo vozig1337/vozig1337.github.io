@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="terminal-container">
+    <div class="terminal-container" id="terminal-container">
         <div class="terminal-header">
             <div class="close"></div>
             <div class="minimize"></div>
@@ -25,6 +25,11 @@
 
         const input = document.getElementById("terminal-input");
         const terminalBody = document.getElementById("terminal-body");
+        const terminalContainer = document.getElementById("terminal-container");
+
+        terminalContainer.addEventListener("click", function() {
+            input.focus();
+        });
 
         const commandDescriptions = {
             "help": "Displays available commands or details about a specific command.",
