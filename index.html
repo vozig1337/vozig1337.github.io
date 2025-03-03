@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Terminal Style</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="close"></div>
+            <div class="minimize"></div>
+            <div class="maximize"></div>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+            <div class="welcome-message">Welcome! Type 'help' to see available commands.</div>
+            <div><span>mark@linux-desktop:~$</span> <input type="text" id="terminal-input" class="terminal-input" autofocus></div>
+        </div>
+    </div>
+    <script>
+        function restartTerminal() {
+            location.reload();
+        }
+
+        const input = document.getElementById("terminal-input");
+        const terminalBody = document.getElementById("terminal-body");
+
+        const commandDescriptions = {
+            "help": "Displays available commands or details about a specific command.",
+            "learn": "Shows the list of programming languages.",
+            "clear": "Resets the terminal as if it were restarted.",
+            "project": "Soon ...",
+            "presentation": "Displays a short introduction."
+        };
+
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const command = input.value.trim();
+                input.value = "";
+
+                let output = "";
+                if (command === "help") {
+                    output = "Available commands: help, learn, clear, project, presentation";
+                } else if (command.startsWith("help ")) {
+                    const cmd = command.split(" ")[1];
+                    output = commandDescriptions[cmd] || `No description available for '${cmd}'.`;
+                } else if (command === "learn") {
+                    output = "Programming languages:\n\nHTML, CSS, PHP, JS (discord.js), PYTHON, SQL";
+                } else if (command === "project") {
+                    output = "Soon ...";
+                } else if (command === "presentation") {
+                    output = "Name: Nolan<br>Age: 17<br>City: Combs-la-Ville";
+                } else if (command === "clear") {
+                    restartTerminal();
+                    return;
+                } else {
+                    output = `Command not found: ${command}`;
+                }
+                
+                const newLine = document.createElement("div");
+                newLine.innerHTML = `<span>mark@linux-desktop:~$</span> ${command}<br>${output}`;
+                terminalBody.insertBefore(newLine, input.parentElement);
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+        });
+    </script>
+</body>
+</html>
